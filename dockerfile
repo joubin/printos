@@ -1,3 +1,14 @@
+FROM debian:12 as downloader
+
+# Install git and git-lfs
+RUN apt-get update && apt-get install -y git git-lfs && \
+    git lfs install
+
+# Clone the repository and pull LFS files
+WORKDIR /build
+RUN git clone https://github.com/joubin/printos . && \
+    git lfs pull
+
 FROM debian:12
 
 # Install required packages
@@ -13,8 +24,8 @@ RUN apt-get update && apt-get install -y \
     dbus-x11 \
     avahi-utils
 
-# Copy and install the Brother scanner driver
-COPY brscan4-0.4.10-1.i386.deb /br.deb
+# Copy and install the Brother scanner driver from the downloader stage
+COPY --from=downloader /build/brscan4-0.4.10-1.i386.deb /br.deb
 RUN dpkg -i /br.deb && \
     rm /br.deb
 
