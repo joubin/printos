@@ -55,9 +55,8 @@ RUN echo "net" >> /etc/sane.d/net.conf
 ADD brscan4-0.4.10-1.i386.deb /br.deb
 RUN dpkg -i /br.deb && rm /br.deb
 
-ADD linux-brprinter-installer-2.2.4-1.gz linux-brprinter-installer-2.2.4-1.gzip
-RUN gunzip linux-brprinter-installer-2.2.4-1.gz && \
-    chmod +x linux-brprinter-installer-2.2.4-1 && \
+ADD linux-brprinter-installer-2.2.4-1.gz linux-brprinter-installer-2.2.4-1
+RUN chmod +x linux-brprinter-installer-2.2.4-1 && \
     ./linux-brprinter-installer-2.2.4-1
 
 # Expose ports
