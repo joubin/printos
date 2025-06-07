@@ -13,6 +13,7 @@ FROM debian:12
 
 # Install all packages and configure everything in a single layer
 RUN apt-get update && apt-get install -y \
+    vim \
     cups \
     cups-client \
     cups-filters \
