@@ -41,7 +41,6 @@ RUN dpkg --add-architecture i386 && \
     libc6:i386 \
     libncurses5:i386 \
     libstdc++6:i386 \
-    lib32z1 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
