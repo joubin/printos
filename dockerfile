@@ -27,6 +27,7 @@ RUN apt-get update && apt-get install -y \
     # Create user and add to group
     useradd -m -s /bin/bash pi && \
     usermod -a -G lpadmin pi && \
+    usermod -a -G lpadmin root && \ # Probably not safe, but it works
     # Configure CUPS
     mkdir -p /etc/cups/ssl && \
     chmod 700 /etc/cups/ssl && \
