@@ -35,6 +35,16 @@ RUN apt-get update && apt-get install -y \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Install 32-bit compatibility libraries
+RUN dpkg --add-architecture i386 && \
+    apt-get update && apt-get install -y \
+    libc6:i386 \
+    libncurses5:i386 \
+    libstdc++6:i386 \
+    lib32z1 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # Create and configure user
 RUN useradd -m -s /bin/bash pi && \
     usermod -a -G lpadmin pi && \
@@ -51,13 +61,15 @@ RUN mkdir -p /etc/cups/ssl && \
 # Configure SANE
 RUN echo "net" >> /etc/sane.d/net.conf
 
-# Copy and install the Brother scanner driver from the downloader stage
+# Copy and install the Brother scanner driver
 ADD brscan4-0.4.10-1.i386.deb /br.deb
 RUN dpkg -i /br.deb && rm /br.deb
 
-ADD linux-brprinter-installer-2.2.4-1.gz linux-brprinter-installer-2.2.4-1
-RUN chmod +x linux-brprinter-installer-2.2.4-1 && \
-    ./linux-brprinter-installer-2.2.4-1
+# Install Brother printer driver
+ADD linux-brprinter-installer-2.2.4-1 /usr/local/bin/
+RUN chmod +x /usr/local/bin/linux-brprinter-installer-2.2.4-1 && \
+    /usr/local/bin/linux-brprinter-installer-2.2.4-1 && \
+    rm /usr/local/bin/linux-brprinter-installer-2.2.4-1
 
 # Expose ports
 EXPOSE 631 5353
