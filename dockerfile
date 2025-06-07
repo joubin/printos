@@ -48,7 +48,8 @@ RUN dpkg --add-architecture i386 && \
 # Create and configure user
 RUN useradd -m -s /bin/bash pi && \
     usermod -a -G lpadmin pi && \
-    usermod -a -G lpadmin root
+    usermod -a -G lpadmin root && \
+    echo "pi:pi" | chpasswd
 
 # Configure CUPS
 RUN mkdir -p /etc/cups/ssl && \
@@ -70,6 +71,12 @@ ADD linux-brprinter-installer-2.2.4-1 /usr/local/bin/
 RUN chmod +x /usr/local/bin/linux-brprinter-installer-2.2.4-1 && \
     /usr/local/bin/linux-brprinter-installer-2.2.4-1 && \
     rm /usr/local/bin/linux-brprinter-installer-2.2.4-1
+
+# Reinstall CUPS to ensure all configurations are properly applied
+RUN apt-get update && \
+    apt-get install -y --reinstall cups cups-client cups-filters cups-pdf && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Expose ports
 EXPOSE 631 5353
