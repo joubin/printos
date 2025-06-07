@@ -3,7 +3,6 @@ FROM debian:12
 # Install required packages
 RUN apt-get update && apt-get install -y \
     cups \
-    curl \
     cups-client \
     cups-filters \
     cups-pdf \
@@ -12,16 +11,12 @@ RUN apt-get update && apt-get install -y \
     avahi-daemon \
     dbus \
     dbus-x11 \
-    avahi-utils && \
-    curl -L https://download.brother.com/welcome/dlf006994/brscan4-0.4.10-1.i386.deb -o /brscan4-0.4.10-1.i386.deb && \
-    dpkg -i /brscan4-0.4.10-1.i386.deb && \
-    rm /brscan4-0.4.10-1.i386.deb
+    avahi-utils
 
-# Install required packages
-RUN apt-get update && apt-get install -y \
-    cups \
-    cups-client \
-    cups-filters
+# Copy and install the Brother scanner driver
+COPY brscan4-0.4.10-1.i386.deb /br coscan4-0.4.10-1.i386.deb
+RUN dpkg -i /brscan4-0.4.10-1.i386.deb && \
+    rm /brscan4-0.4.10-1.i386.deb
 
 # Create pi user
 RUN useradd -m -s /bin/bash pi
