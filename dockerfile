@@ -14,9 +14,9 @@ RUN apt-get update && apt-get install -y \
     avahi-utils
 
 # Copy and install the Brother scanner driver
-COPY brscan4-0.4.10-1.i386.deb /br coscan4-0.4.10-1.i386.deb
-RUN dpkg -i /brscan4-0.4.10-1.i386.deb && \
-    rm /brscan4-0.4.10-1.i386.deb
+COPY brscan4-0.4.10-1.i386.deb /br.deb
+RUN dpkg -i /br.deb && \
+    rm /br.deb
 
 # Create pi user
 RUN useradd -m -s /bin/bash pi
