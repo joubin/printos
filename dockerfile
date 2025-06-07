@@ -13,7 +13,7 @@ RUN git clone https://github.com/joubin/printos . && \
 FROM debian:12
 
 # Install vim
-RUN apt-get update && apt-get install -y vim curl net-utils && \
+RUN apt-get update && apt-get install -y vim curl net-tools && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
